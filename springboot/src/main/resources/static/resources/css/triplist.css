@@ -1,0 +1,16 @@
+.map_title {
+    font-weight: bold;
+    color: rgb(105, 105, 105);
+    font-size: 30px;
+  }
+  .map_little_title {
+    color: black;
+    font-size: 18px;
+  }
+  .detail {
+    font-weight: bold;
+    color: black;
+    font-size: 18px;
+    height: 40px;
+    border-bottom: 3px solid black;
+  }

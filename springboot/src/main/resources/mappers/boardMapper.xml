@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.jhtrip.board.dao.BoardDao">
+
+	<insert id="insert" parameterType="board">
+		INSERT INTO board (user_id,
+		title, content) VALUES
+		(#{userId}, #{title}, #{content})
+	</insert>
+
+	<select id="getBoardNo" resultType="int">
+		select last_insert_id();
+	</select>
+
+	<insert id="insertFile" parameterType="fileInfo">
+		insert into file_info(board_no, original_file, save_file)
+		values (#{boardNo}, #{originalFile}, #{saveFile});
+	</insert>
+
+	<select id="getFileInfo" parameterType="int" resultType="fileInfo">
+		select * from file_info
+		where board_no = #{no}
+	</select>
+	<insert id="commentWrite" parameterType="comments">
+		insert into
+		comments(board_no, user_id, comment)
+		values (#{boardNo}, #{userId},
+		#{comment});
+	</insert>
+
+	<select id="select" parameterType="int" resultType="board">
+		SELECT no,
+		user_id, title, content, hit, created_at
+		FROM board
+		WHERE no = #{no}
+	</select>
+
+	<select id="getComments" parameterType="int">
+		select * from comments
+		where board_no = #{no};
+	</select>
+
+	<update id="update" parameterType="board">
+		UPDATE board
+		SET
+		title =
+		#{title},
+		content = #{content}
+		WHERE
+		no = #{no}
+	</update>
+
+	<update id="updateComment" parameterType="comments">
+		update comments
+		set
+		comment = #{comment}
+		where id = #{id};
+	</update>
+	
+	<update id="updateHit" parameterType="int">
+		update board
+		set hit = hit + 1
+		where no = #{no}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE
+		FROM board
+		WHERE no =
+		${no}
+	</delete>
+
+	<delete id="deleteComment" parameterType="int">
+		delete from comments
+		where id = #{id}
+	</delete>
+
+	<select id="search" parameterType="searchCondition"
+		resultType="board">
+		SELECT no, user_id, title, content, hit, created_at
+		FROM board
+		<!-- <if test="key != 'none'"> WHERE ${key} LIKE CONCAT('%', #{word}, '%') 
+			</if> -->
+		<where>
+			<if test="key != 'none' and word != ''">
+				AND ${key} LIKE CONCAT('%', #{word}, '%')
+			</if>
+		</where>
+		<if test="orderBy != 'none'">
+			ORDER BY ${orderBy} ${orderByDir}
+		</if>
+		<if test="limit">
+			LIMIT #{offset}, #{countPerPage}
+		</if>
+	</select>
+</mapper>

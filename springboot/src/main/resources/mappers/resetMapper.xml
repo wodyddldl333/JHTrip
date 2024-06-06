@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.jhtrip.user.model.dao.ResetTokenDao">
+    <insert id="save" parameterType="resetToken">
+        insert into reset_tokens(user_id, token, expiry)
+        values (#{userId}, #{token}, #{expiry})
+    </insert>
+    <select id="loadToken" parameterType="string" resultType="resetToken">
+        select * from reset_tokens
+        where token = #{token}
+    </select>
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.jhtrip.chatbot.mapper.AttractionMapper">
+    <select id="findBycode">
+        select sido_name from sido where sido_code = #{sidoCode}
+    </select>
+
+    <select id="getAttractionListBySido">
+        SELECT *
+        FROM attraction_info
+        WHERE sido_code = #{sidoCode}
+        AND content_type_id in
+        <foreach item="id" index="index" collection="contentIds" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        ORDER BY RAND() LIMIT 120
+    </select>
+
+</mapper>

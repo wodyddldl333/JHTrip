@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.jhtrip.user.model.dao.SecurityDao">
+	
+	
+	<select id="getSalt" parameterType="string" resultType="security">
+		select * from security where user_id = #{id}
+	</select>
+	
+	<insert id="regist" parameterType="security">
+		insert into security(user_id, salt, iteration, algo) 
+		values (#{userId}, #{salt}, #{iteration}, #{algo})
+	</insert>
+	
+	<update id="update" parameterType="security">
+		update security
+		set salt = #{salt}, iteration = #{iteration}
+		where user_id = #{userId}
+	</update>
+</mapper>

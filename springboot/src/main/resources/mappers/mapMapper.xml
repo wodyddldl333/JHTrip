@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.jhtrip.map.dao.MapDao">
+    <select id="search" parameterType="searchKeyword" resultType="mapDto">
+        select a.content_id, content_type_id, title, addr1, tel, first_image, latitude, longitude, sido_code, gugun_code, overview
+        from attraction_info a
+        join  attraction_description b
+            on a.content_id = b.content_id
+        <where>
+            <if test="area != 0">
+                sido_code = (
+                    select sido_code
+                    from sido
+                    where sido_code = #{area}
+                )
+            </if>
+            <if test="content != null and content != 0">
+                AND content_type_id = #{content}
+            </if>
+            <if test="keyword != null">
+                AND title like concat('%', #{keyword}, '%')
+            </if>
+        </where>
+        limit 500
+    </select>
+    <select id="loadMain">
+        SELECT * FROM attraction_info
+        where content_type_id = 12
+          and first_image != ''
+        ORDER BY RAND() LIMIT 4;
+    </select>
+
+    <select id="getSido" resultType="sido">
+        select * from sido;
+    </select>
+
+    <insert id="updateSearch" parameterType="searchKeyword">
+        INSERT INTO search_terms (content_id)
+        select content_id
+        from attraction_info
+        <where>
+            <if test="area != 0">
+                sido_code = (
+                select sido_code
+                from sido
+                where sido_code = #{area}
+                )
+            </if>
+            <if test="content != null">
+                AND content_type_id = #{content}
+            </if>
+            <if test="keyword != null">
+                AND title like concat('%', #{keyword}, '%')
+            </if>
+        </where>
+        limit 500
+    </insert>
+    <select id="loadPopular">
+        SELECT
+            ai.content_id,
+            ai.content_type_id,
+            ai.title,
+            ai.addr1,
+            ai.first_image,
+            COALESCE(st.search_count, 0) as search_count
+        FROM
+            attraction_info ai
+                LEFT JOIN
+            (SELECT
+                 content_id,
+                 COUNT(*) as search_count
+             FROM
+                 search_terms
+             WHERE
+                 searched_at >= NOW() - INTERVAL 1 HOUR
+             GROUP BY
+                 content_id
+             ORDER BY
+                 search_count DESC
+                 LIMIT 10) st
+            ON
+                ai.content_id = st.content_id
+        where first_image != ''
+        ORDER BY
+            search_count DESC
+            LIMIT 4;
+    </select>
+
+    <select id="selectbyContentId">
+        select a.content_id, content_type_id, title, addr1, tel, first_image, latitude, longitude, sido_code, gugun_code, overview
+        from attraction_info a
+        join  attraction_description b
+        on a.content_id = b.content_id
+        where a.content_id = #{contentId}
+    </select>
+</mapper>

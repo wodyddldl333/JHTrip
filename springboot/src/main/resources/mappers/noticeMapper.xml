@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.jhtrip.notice.dao.NoticeDao">
+
+	<select id="select" parameterType="int" resultType="notice">
+		SELECT *
+		FROM notice
+		WHERE no = #{no}
+	</select>
+
+	
+	<select id="search" parameterType="searchCondition" resultType="notice">
+		SELECT *
+		FROM notice
+		<where>
+			<if test="key != 'none' and word != ''">
+				AND ${key} LIKE CONCAT('%', #{word}, '%')
+			</if>
+		</where>
+		<if test="orderBy != 'none'">
+			ORDER BY ${orderBy} ${orderByDir}
+		</if>
+		<if test="limit">
+			LIMIT #{offset}, #{countPerPage}
+		</if>
+	</select>
+
+	<update id="updateHit" parameterType="int">
+		update notice
+		set hit = hit + 1
+		where no = #{no}
+	</update>
+
+	<insert id="insert" parameterType="notice">
+		insert into notice (user_id, title, content)
+		values (#{userId}, #{title}, #{content})
+	</insert>
+
+	<update id="update" parameterType="notice">
+		update notice
+		set title = #{title},
+		    content = #{content}
+		where no = #{no}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		delete from notice
+		where no = #{no}
+	</delete>
+</mapper>

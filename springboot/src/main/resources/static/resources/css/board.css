@@ -1,0 +1,51 @@
+.bulletin-board {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  .bulletin-board h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .bulletin-table {
+    width: 100%;
+  }
+  
+  .bulletin-row {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .bulletin-row.header {
+    font-weight: bold;
+    background-color: #f3f3f3;
+  }
+  
+  .bulletin-cell {
+    flex: 1;
+    padding: 10px;
+  }
+  
+  .bulletin-cell:first-child {
+    flex: 6; /* Adjusting the first column width */
+  }
+  
+  .bulletin-cell:last-child {
+    flex: 2; /* Adjusting the first column width */
+  }
+
+  .bulletin-row.empty {
+    text-align: center;
+  }
+
+  .bulletin-cell:not(:first-child) {
+      text-align: center;
+  }
+
+  .bulletin-row:first-child {
+    text-align: center;
+  }

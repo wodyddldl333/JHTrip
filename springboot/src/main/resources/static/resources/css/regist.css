@@ -1,0 +1,120 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 600px;
+  margin: 100px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h4 {
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="password"],
+select {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.input-group {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.input-group-text {
+  line-height: 40px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.input-group input[type="text"] {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+select.form-select {
+  width: 30%;
+  margin-left: 5px;
+}
+
+.btn {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+.logo {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  height: 70px;
+  line-height: 70px;
+  margin-bottom: 30px;
+}
+
+#logo_title {
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+  font-size: 40px;
+}
+
+footer {
+  background-color: #f2f2f2;
+  padding: 20px 0;
+  margin: 0 auto;
+  text-align: center;
+  max-width: 1000px;
+}
+
+.foot_good {
+  display: flex;
+  justify-content: center;
+}
+
+.foot_good a {
+  margin: 0 10px;
+  color: #6c757d;
+  text-decoration: none;
+}
+
+.foot_good a:hover {
+  color: #007bff;
+}
+
+.warming {
+  margin-top: 20px;
+  text-align: center;
+  color: red;
+  font-weight: bold;
+}
