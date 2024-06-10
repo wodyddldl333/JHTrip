@@ -30,8 +30,8 @@ public class UserExceptionHandler {
         return new ResponseEntity<>("Not Found User with email", HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(ResetTokenExecption.class)
-    public ResponseEntity<String> handleResetTokenExecption(ResetTokenExecption ex) {
+    @ExceptionHandler(ResetTokenException.class)
+    public ResponseEntity<String> handleResetTokenExecption(ResetTokenException ex) {
         log.error("Reset token execption error: {}", ex.getMessage());
         return new ResponseEntity<>("Failed to save token", HttpStatus.BAD_REQUEST);
     }
