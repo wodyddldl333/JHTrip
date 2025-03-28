@@ -57,7 +57,7 @@ public class BoardServiceImpl implements BoardService {
 			Board board = boardDao.select(no);
 			FileInfo fileInfo = boardDao.getFileInfo(no);
 			if (fileInfo != null) {
-				board.setFileInfo(fileInfo);
+				board.toBuilder().fileInfo(fileInfo).build();
 			}
 			return board;
 		} catch (Exception e) {
@@ -90,7 +90,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int insertFileInfo(FileInfo fileInfo) {
 		int boardNo = boardDao.getBoardNo();
-		fileInfo.setBoardNo(boardNo);
+		fileInfo.toBuilder().boardNo(boardNo).build();
 		return boardDao.insertFile(fileInfo);
 	}
 

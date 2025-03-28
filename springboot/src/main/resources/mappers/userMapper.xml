@@ -1,33 +1,62 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ssafy.jhtrip.user.model.dao.UserDao">
+
+	<!-- 사용자 로그인 -->
 	<select id="login" parameterType="user" resultType="user">
-		select * 
-		from members 
-		where id = #{id} and pass = #{pass}
+		<![CDATA[
+		SELECT *
+		FROM members
+		WHERE id = #{id}         -- 사용자 ID
+		  AND pass = #{pass}     -- 사용자 비밀번호
+		]]>
 	</select>
-	
+
+	<!-- 사용자 등록 -->
 	<insert id="regist" parameterType="user">
-		insert into members(id, name, pass, email)
-		values (#{id}, #{name}, #{pass}, #{email})
+		<![CDATA[
+		INSERT INTO members (
+			id,          -- 사용자 ID
+			name,        -- 사용자 이름
+			pass,        -- 비밀번호
+			email        -- 이메일 주소
+		) VALUES (
+					 #{id},       -- 사용자 ID
+					 #{name},     -- 사용자 이름
+					 #{pass},     -- 비밀번호
+					 #{email}     -- 이메일 주소
+				 )
+		]]>
 	</insert>
-	
+
+	<!-- 사용자 비밀번호 수정 -->
 	<update id="modifyUser" parameterType="user">
-		update members
-		set pass = #{pass}
-		where id = #{id}
+		<![CDATA[
+		UPDATE members
+		SET pass = #{pass}      -- 수정할 비밀번호
+		WHERE id = #{id}        -- 대상 사용자 ID
+		]]>
 	</update>
-	
+
+	<!-- 사용자 삭제 -->
 	<delete id="deleteUser" parameterType="string">
-		delete from members
-		where id = #{id}
+		<![CDATA[
+		DELETE FROM members
+		WHERE id = #{id}        -- 삭제할 사용자 ID
+		]]>
 	</delete>
 
+	<!-- 이메일로 사용자 조회 -->
 	<select id="findByEmail" parameterType="string" resultType="string">
-		select id, name
-		from members
-		where email = #{email}
+		<![CDATA[
+		SELECT
+			id,         -- 사용자 ID
+			name        -- 사용자 이름
+		FROM members
+		WHERE email = #{email}  -- 검색할 이메일
+		]]>
 	</select>
+
 </mapper>

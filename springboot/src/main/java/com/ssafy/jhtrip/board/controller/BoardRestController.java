@@ -147,8 +147,10 @@ public class BoardRestController {
                 byte[] bytes = file.getBytes();
                 String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
                 Path path = Paths.get(UPLOADED_FOLDER + filename);
-                fileInfo.setOriginalFile(file.getOriginalFilename());
-                fileInfo.setSaveFile(filename);
+                fileInfo.toBuilder()
+                        .originalFile(file.getOriginalFilename())
+                        .saveFile(filename)
+                        .build();
                 boardService.insert(board);
                 int result = boardService.insertFileInfo(fileInfo);
                 Files.write(path, bytes);
