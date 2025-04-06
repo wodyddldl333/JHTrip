@@ -14,7 +14,7 @@ import java.util.Optional;
  * MyBatis의 매퍼 인터페이스로 구현됩니다.
  *
  * @author wodyddldl333
- * @version v1
+ * @version v2
  */
 @Mapper
 public interface UserDao {

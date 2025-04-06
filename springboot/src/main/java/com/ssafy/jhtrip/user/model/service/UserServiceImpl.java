@@ -204,7 +204,7 @@ public class UserServiceImpl implements UserService {
 
         try {
             // 생성된 토큰을 데이터베이스에 저장
-            resetTokenDao.save(resetToken);
+            resetTokenDao.saveToken(resetToken);
         } catch (Exception e) {
             log.error("Error occurred while saving reset token: {}", e.getMessage());
             throw new ResetTokenException("Error occurred while saving reset token");

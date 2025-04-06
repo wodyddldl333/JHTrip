@@ -3,12 +3,29 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ssafy.jhtrip.user.model.dao.ResetTokenDao">
-    <insert id="save" parameterType="resetToken">
+    <!--reset token 저장-->
+    <insert id="saveToken" parameterType="resetToken">
         insert into reset_tokens(user_id, token, expiry)
         values (#{userId}, #{token}, #{expiry})
+        INSERT INTO RESET_TOKENS (
+                                  USER_ID,
+                                  TOKEN,
+                                  EXPIRY
+        ) VALUES (
+                  #{userId},
+                  #{token},
+                  #{expiry}
+                )
     </insert>
+
+    <!--reset Token 불러오기-->
     <select id="loadToken" parameterType="string" resultType="resetToken">
-        select * from reset_tokens
-        where token = #{token}
+        SELECT
+            ID,         -- primary Key (Integer)
+            USER_ID,    -- 회원 ID (VARCHAR)
+            TOKEN,      -- TOKEN VALUE (VARCHAR)
+            EXPIRY      -- 유효기간 (TIMESTAMP)
+        FROM RESET_TOKENS
+        WHERE TOKEN = #{token}
     </select>
 </mapper>

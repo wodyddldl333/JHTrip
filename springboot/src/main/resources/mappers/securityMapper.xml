@@ -3,20 +3,38 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ssafy.jhtrip.user.model.dao.SecurityDao">
-	
-	
+	<!--salt 값 가져오기-->
 	<select id="getSalt" parameterType="string" resultType="security">
-		select * from security where user_id = #{id}
+		SELECT
+		    USER_ID,		/* 회원 ID */
+		    SALT,			/* SALTONG VALUE */
+		    ITERATION,		/* 반복 횟수 */
+		    ALGO			/* 사용 알고리즘 */
+		FROM SECURITY
+		WHERE USER_ID = #{id}
 	</select>
-	
+
+	<!--salt 값 저장-->
 	<insert id="regist" parameterType="security">
-		insert into security(user_id, salt, iteration, algo) 
-		values (#{userId}, #{salt}, #{iteration}, #{algo})
+		INSERT INTO SECURITY (
+			 USER_ID,
+			 SALT,
+			 ITERATION,
+			 ALGO
+		) VALUES (
+			  #{userId},
+		      #{salt},
+		      #{iteration},
+		      #{algo}
+		)
 	</insert>
-	
+
+	<!--비밀번호 변경으로 인한 salt value update-->
 	<update id="update" parameterType="security">
-		update security
-		set salt = #{salt}, iteration = #{iteration}
-		where user_id = #{userId}
+		UPDATE SECURITY
+		SET
+		    SALT = #{salt},
+		    ITERATION = #{iteration}
+		WHERE USER_ID = #{userId}
 	</update>
 </mapper>

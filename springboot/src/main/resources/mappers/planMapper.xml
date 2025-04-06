@@ -4,46 +4,73 @@
 
 <mapper namespace="com.ssafy.jhtrip.plan.dao.PlanMapper">
 
-    <!-- plan 삽입 -->
+    <!-- 여행경로 저장 -->
     <insert id="insertPlan" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO `tripdb`.`plan` (user_id, plan_name, description)
-        VALUES (#{userId}, #{planName}, #{description})
+        INSERT INTO PLAN (
+                          USER_ID,
+                          PLAN_NAME,
+                          DESCRIPTION
+        ) VALUES (
+                  #{userId},
+                  #{planName},
+                  #{description}
+        )
     </insert>
 
     <!-- route plans 삽입 -->
     <insert id="insertRoutePlans">
-        INSERT INTO `tripdb`.`route_plan` (plan_id, content_id, sequence)
+        INSERT INTO ROUTE_PLAN (
+                                PLAN_ID,
+                                CONTENT_ID,
+                                SEQUENCE
+        )
         VALUES
         <foreach collection="routePlans" item="routePlan" separator=",">
-            (#{routePlan.planId}, #{routePlan.contentId}, #{routePlan.sequence})
+            (
+             #{routePlan.planId},
+             #{routePlan.contentId},
+             #{routePlan.sequence}
+            )
         </foreach>
     </insert>
 
     <select id="selectPlanItems">
-        select b.sequence, a.content_id, title, addr1, first_image, latitude, longitude
-        from attraction_info a
-                 join route_plan b
-                      on a.content_id = b.content_id
-        where plan_id = #{planId};
+        SELECT
+            b.sequence,
+            a.content_id,
+            title,
+            addr1,
+            first_image,
+            latitude,
+            longitude
+        FROM ATTRACION_INFO a
+        INNER JOIN ROUTE_PLAN b
+        ON a.content_id = b.content_id
+        WHERE plan_id = #{planId}
     </select>
 
     <select id="selectPlan">
-        select * from plan
-        where user_id = #{userId}
-        ORDER BY id DESC
+        SELECT *
+        FROM PLAN
+        WHERE USER_ID = #{userId}
+        ORDER BY
+            ID DESC
     </select>
 
     <delete id="deletePlan">
-        delete from plan
-        where id = #{planId}
+        DELETE FROM PLAN
+        WHERE ID = #{planId}
     </delete>
 
     <select id="getDetailPlan">
-        select * from plan where id = #{id}
+        SELECT *
+        FROM PLAN
+        WHERE ID = {id}
     </select>
 
     <select id="getAttractionsByIds" parameterType="list">
-        SELECT * FROM attraction_info
+        SELECT *
+        FROM attraction_info
         WHERE content_id IN
         <foreach item="id" index="index" collection="contentIds" open="(" separator="," close=")">
             #{id}
@@ -56,13 +83,20 @@
     </select>
 
     <select id="getPlanListALL">
-        select * from plan a
-        left join (select plan_id , count(plan_id) `like` from likes_plan
-                   group by plan_id) b
-        on a.id = b.plan_id
-        where share_status = 1
+        SELECT *
+        FROM PLAN a
+        LEFT OUTER JOIN (
+            SELECT
+                PLAN_ID,
+                COUNT(PLAN_ID) `like`
+            FROM LIKES_PLAN
+            GROUP BY PLAN_ID
+        ) b
+        ON a.ID = b.PLAN_ID
+        WHERE SHARE_STATUS = 1
         <if test="orderBy != 'none'">
-            ORDER BY ${orderBy} ${orderByDir}
+            ORDER BY
+                ${orderBy} ${orderByDir}
         </if>
         <if test="limit">
             LIMIT #{offset}, #{countPerPage}
